@@ -1,0 +1,105 @@
+﻿@model IDS325__Indice_Académico_Proyecto.Models.Persona
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Persona</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorreoElectronico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorreoElectronico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaIngresoPersona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaIngresoPersona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VigenciaPersona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VigenciaPersona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contraseña)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contraseña)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AreaAcademica.NombreArea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AreaAcademica.NombreArea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Carrera1.NombreCarrera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carrera1.NombreCarrera)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rol.DescripcionRol)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rol.DescripcionRol)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,67 @@
+﻿@model IDS325__Indice_Académico_Proyecto.Models.Asignatura
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Asignatura</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Credito)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Credito)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreAsignatura)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreAsignatura)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaIngresoAsignatura)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaIngresoAsignatura)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VigenciaAsignatura)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VigenciaAsignatura)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AreaAcademica.NombreArea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AreaAcademica.NombreArea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Carrera.NombreCarrera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carrera.NombreCarrera)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CodigoAsignatura }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

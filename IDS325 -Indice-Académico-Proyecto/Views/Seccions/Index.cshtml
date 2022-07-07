@@ -1,0 +1,47 @@
+﻿@model IEnumerable<IDS325__Indice_Académico_Proyecto.Models.Seccion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroSección)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Asignatura.CodigoCarrera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Persona.Carrera)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.NumeroSección)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Asignatura.CodigoCarrera)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Persona.Carrera)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdSeccion }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdSeccion }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdSeccion })
+        </td>
+    </tr>
+}
+
+</table>

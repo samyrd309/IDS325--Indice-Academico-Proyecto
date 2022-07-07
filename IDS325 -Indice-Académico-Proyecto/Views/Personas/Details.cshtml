@@ -1,0 +1,99 @@
+﻿@model IDS325__Indice_Académico_Proyecto.Models.Persona
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Persona</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CorreoElectronico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CorreoElectronico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaIngresoPersona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaIngresoPersona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VigenciaPersona)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VigenciaPersona)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contraseña)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contraseña)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AreaAcademica.NombreArea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AreaAcademica.NombreArea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Carrera1.NombreCarrera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carrera1.NombreCarrera)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rol.DescripcionRol)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rol.DescripcionRol)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Matricula }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,838 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IndiceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AreaAcademica">
+          <Key>
+            <PropertyRef Name="CodigoArea" />
+          </Key>
+          <Property Name="CodigoArea" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="NombreArea" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="FechaIngresoArea" Type="datetime" />
+          <Property Name="VigenciaArea" Type="bit" />
+        </EntityType>
+        <EntityType Name="Asignatura">
+          <Key>
+            <PropertyRef Name="CodigoAsignatura" />
+          </Key>
+          <Property Name="CodigoAsignatura" Type="nvarchar" MaxLength="7" Nullable="false" />
+          <Property Name="CodigoCarrera" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="CodigoArea" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Credito" Type="int" Nullable="false" />
+          <Property Name="NombreAsignatura" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaIngresoAsignatura" Type="datetime" />
+          <Property Name="VigenciaAsignatura" Type="bit" />
+        </EntityType>
+        <EntityType Name="Calificacion">
+          <Key>
+            <PropertyRef Name="Matricula" />
+            <PropertyRef Name="CodigoAsignatura" />
+          </Key>
+          <Property Name="Matricula" Type="int" Nullable="false" />
+          <Property Name="CodigoAsignatura" Type="nvarchar" MaxLength="7" Nullable="false" />
+          <Property Name="Trimestre" Type="char" MaxLength="7" />
+          <Property Name="Nota" Type="nvarchar" MaxLength="2" />
+          <Property Name="IdSeccion" Type="int" />
+          <Property Name="FechaIngresoCalificacion" Type="datetime" />
+          <Property Name="VigenciaCalificacion" Type="bit" />
+        </EntityType>
+        <EntityType Name="Carrera">
+          <Key>
+            <PropertyRef Name="CodigoCarrera" />
+          </Key>
+          <Property Name="CodigoCarrera" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="NombreCarrera" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="FechaIngresoCarrera" Type="datetime" />
+          <Property Name="VigenciaCarrera" Type="bit" />
+        </EntityType>
+        <EntityType Name="Literal">
+          <Key>
+            <PropertyRef Name="Nota" />
+          </Key>
+          <Property Name="Nota" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="Numero" Type="decimal" Precision="2" Scale="1" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Matricula" />
+          </Key>
+          <Property Name="Matricula" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdRol" Type="int" Nullable="false" />
+          <Property Name="Carrera" Type="char" MaxLength="3" />
+          <Property Name="CodigoArea" Type="char" MaxLength="2" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="320" Nullable="false" />
+          <Property Name="FechaIngresoPersona" Type="datetime" />
+          <Property Name="VigenciaPersona" Type="bit" />
+          <Property Name="Indice" Type="decimal" Precision="3" Scale="2" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionRol" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FechaIngresoRol" Type="datetime" />
+          <Property Name="VigenciaRol" Type="bit" />
+        </EntityType>
+        <EntityType Name="Seccion">
+          <Key>
+            <PropertyRef Name="IdSeccion" />
+          </Key>
+          <Property Name="CodigoAsignatura" Type="nvarchar" MaxLength="7" />
+          <Property Name="IdSeccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Matricula" Type="int" />
+          <Property Name="FechaIngresoSeccion" Type="datetime" />
+          <Property Name="VigenciaSección" Type="bit" />
+          <Property Name="NumeroSección" Type="int" />
+        </EntityType>
+        <Association Name="FK_Asignatura_CodigoArea">
+          <End Role="AreaAcademica" Type="Self.AreaAcademica" Multiplicity="1" />
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AreaAcademica">
+              <PropertyRef Name="CodigoArea" />
+            </Principal>
+            <Dependent Role="Asignatura">
+              <PropertyRef Name="CodigoArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asignatura_CodigoCarrera">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="1" />
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CodigoCarrera" />
+            </Principal>
+            <Dependent Role="Asignatura">
+              <PropertyRef Name="CodigoCarrera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Calificacion_IdSeccion">
+          <End Role="Seccion" Type="Self.Seccion" Multiplicity="0..1" />
+          <End Role="Calificacion" Type="Self.Calificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seccion">
+              <PropertyRef Name="IdSeccion" />
+            </Principal>
+            <Dependent Role="Calificacion">
+              <PropertyRef Name="IdSeccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Calificacion_Matricula">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Calificacion" Type="Self.Calificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Calificacion">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_Carrera">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="0..1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CodigoCarrera" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="Carrera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_CodigoArea">
+          <End Role="AreaAcademica" Type="Self.AreaAcademica" Multiplicity="0..1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AreaAcademica">
+              <PropertyRef Name="CodigoArea" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="CodigoArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_IdRol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seccion_CodigoAsignatura">
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="0..1" />
+          <End Role="Seccion" Type="Self.Seccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asignatura">
+              <PropertyRef Name="CodigoAsignatura" />
+            </Principal>
+            <Dependent Role="Seccion">
+              <PropertyRef Name="CodigoAsignatura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seccion_Matricula">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="0..1" />
+          <End Role="Seccion" Type="Self.Seccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Seccion">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_EditarPersona" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Matricula" Type="int" Mode="In" />
+          <Parameter Name="Carrera" Type="char" Mode="In" />
+          <Parameter Name="CodigoArea" Type="char" Mode="In" />
+          <Parameter Name="CorreoElectronico" Type="varchar" Mode="In" />
+          <Parameter Name="Contraseña" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_EliminarPersona" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Matricula" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GuardarPersona" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRol" Type="int" Mode="In" />
+          <Parameter Name="Carrera" Type="char" Mode="In" />
+          <Parameter Name="CodigoArea" Type="char" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoElectronico" Type="varchar" Mode="In" />
+          <Parameter Name="Contraseña" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ListarAsignaturas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ListarDocentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ListarEstudiantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ListarSeccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ObtenerDocentes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Matricula" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ObtenerEstudiantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Matricula" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ValidarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Matricula" Type="int" Mode="In" />
+          <Parameter Name="Contraseña" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="TrimestreAct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="char" />
+        <EntityContainer Name="IndiceModelStoreContainer">
+          <EntitySet Name="AreaAcademica" EntityType="Self.AreaAcademica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asignatura" EntityType="Self.Asignatura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Calificacion" EntityType="Self.Calificacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Carrera" EntityType="Self.Carrera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Literal" EntityType="Self.Literal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seccion" EntityType="Self.Seccion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Asignatura_CodigoArea" Association="Self.FK_Asignatura_CodigoArea">
+            <End Role="AreaAcademica" EntitySet="AreaAcademica" />
+            <End Role="Asignatura" EntitySet="Asignatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asignatura_CodigoCarrera" Association="Self.FK_Asignatura_CodigoCarrera">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="Asignatura" EntitySet="Asignatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Calificacion_IdSeccion" Association="Self.FK_Calificacion_IdSeccion">
+            <End Role="Seccion" EntitySet="Seccion" />
+            <End Role="Calificacion" EntitySet="Calificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Calificacion_Matricula" Association="Self.FK_Calificacion_Matricula">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Calificacion" EntitySet="Calificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_Carrera" Association="Self.FK_Persona_Carrera">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_CodigoArea" Association="Self.FK_Persona_CodigoArea">
+            <End Role="AreaAcademica" EntitySet="AreaAcademica" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_IdRol" Association="Self.FK_Persona_IdRol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seccion_CodigoAsignatura" Association="Self.FK_Seccion_CodigoAsignatura">
+            <End Role="Asignatura" EntitySet="Asignatura" />
+            <End Role="Seccion" EntitySet="Seccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seccion_Matricula" Association="Self.FK_Seccion_Matricula">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Seccion" EntitySet="Seccion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IndiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AreaAcademica">
+          <Key>
+            <PropertyRef Name="CodigoArea" />
+          </Key>
+          <Property Name="CodigoArea" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NombreArea" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaIngresoArea" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaArea" Type="Boolean" />
+          <NavigationProperty Name="Asignatura" Relationship="Self.FK_Asignatura_CodigoArea" FromRole="AreaAcademica" ToRole="Asignatura" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_CodigoArea" FromRole="AreaAcademica" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Asignatura">
+          <Key>
+            <PropertyRef Name="CodigoAsignatura" />
+          </Key>
+          <Property Name="CodigoAsignatura" Type="String" MaxLength="7" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodigoCarrera" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CodigoArea" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Credito" Type="Int32" Nullable="false" />
+          <Property Name="NombreAsignatura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaIngresoAsignatura" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaAsignatura" Type="Boolean" />
+          <NavigationProperty Name="AreaAcademica" Relationship="Self.FK_Asignatura_CodigoArea" FromRole="Asignatura" ToRole="AreaAcademica" />
+          <NavigationProperty Name="Carrera" Relationship="Self.FK_Asignatura_CodigoCarrera" FromRole="Asignatura" ToRole="Carrera" />
+          <NavigationProperty Name="Seccion" Relationship="Self.FK_Seccion_CodigoAsignatura" FromRole="Asignatura" ToRole="Seccion" />
+        </EntityType>
+        <EntityType Name="Calificacion">
+          <Key>
+            <PropertyRef Name="Matricula" />
+            <PropertyRef Name="CodigoAsignatura" />
+          </Key>
+          <Property Name="Matricula" Type="Int32" Nullable="false" />
+          <Property Name="CodigoAsignatura" Type="String" MaxLength="7" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Trimestre" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="Nota" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdSeccion" Type="Int32" />
+          <Property Name="FechaIngresoCalificacion" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaCalificacion" Type="Boolean" />
+          <NavigationProperty Name="Seccion" Relationship="Self.FK_Calificacion_IdSeccion" FromRole="Calificacion" ToRole="Seccion" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Calificacion_Matricula" FromRole="Calificacion" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Carrera">
+          <Key>
+            <PropertyRef Name="CodigoCarrera" />
+          </Key>
+          <Property Name="CodigoCarrera" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NombreCarrera" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaIngresoCarrera" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaCarrera" Type="Boolean" />
+          <NavigationProperty Name="Asignatura" Relationship="Self.FK_Asignatura_CodigoCarrera" FromRole="Carrera" ToRole="Asignatura" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Carrera" FromRole="Carrera" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Literal">
+          <Key>
+            <PropertyRef Name="Nota" />
+          </Key>
+          <Property Name="Nota" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Numero" Type="Decimal" Precision="2" Scale="1" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Matricula" />
+          </Key>
+          <Property Name="Matricula" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdRol" Type="Int32" Nullable="false" />
+          <Property Name="Carrera" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="CodigoArea" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="320" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaIngresoPersona" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaPersona" Type="Boolean" />
+          <Property Name="Indice" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="Contraseña" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AreaAcademica" Relationship="Self.FK_Persona_CodigoArea" FromRole="Persona" ToRole="AreaAcademica" />
+          <NavigationProperty Name="Calificacion" Relationship="Self.FK_Calificacion_Matricula" FromRole="Persona" ToRole="Calificacion" />
+          <NavigationProperty Name="Carrera1" Relationship="Self.FK_Persona_Carrera" FromRole="Persona" ToRole="Carrera" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_Persona_IdRol" FromRole="Persona" ToRole="Rol" />
+          <NavigationProperty Name="Seccion" Relationship="Self.FK_Seccion_Matricula" FromRole="Persona" ToRole="Seccion" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionRol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaIngresoRol" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaRol" Type="Boolean" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_IdRol" FromRole="Rol" ToRole="Persona" />
+        </EntityType>
+        <EntityType Name="Seccion">
+          <Key>
+            <PropertyRef Name="IdSeccion" />
+          </Key>
+          <Property Name="CodigoAsignatura" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="IdSeccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Matricula" Type="Int32" />
+          <Property Name="FechaIngresoSeccion" Type="DateTime" Precision="3" />
+          <Property Name="VigenciaSección" Type="Boolean" />
+          <Property Name="NumeroSección" Type="Int32" />
+          <NavigationProperty Name="Asignatura" Relationship="Self.FK_Seccion_CodigoAsignatura" FromRole="Seccion" ToRole="Asignatura" />
+          <NavigationProperty Name="Calificacion" Relationship="Self.FK_Calificacion_IdSeccion" FromRole="Seccion" ToRole="Calificacion" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Seccion_Matricula" FromRole="Seccion" ToRole="Persona" />
+        </EntityType>
+        <Association Name="FK_Asignatura_CodigoArea">
+          <End Role="AreaAcademica" Type="Self.AreaAcademica" Multiplicity="1" />
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AreaAcademica">
+              <PropertyRef Name="CodigoArea" />
+            </Principal>
+            <Dependent Role="Asignatura">
+              <PropertyRef Name="CodigoArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_CodigoArea">
+          <End Role="AreaAcademica" Type="Self.AreaAcademica" Multiplicity="0..1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AreaAcademica">
+              <PropertyRef Name="CodigoArea" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="CodigoArea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asignatura_CodigoCarrera">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="1" />
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CodigoCarrera" />
+            </Principal>
+            <Dependent Role="Asignatura">
+              <PropertyRef Name="CodigoCarrera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seccion_CodigoAsignatura">
+          <End Role="Asignatura" Type="Self.Asignatura" Multiplicity="0..1" />
+          <End Role="Seccion" Type="Self.Seccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asignatura">
+              <PropertyRef Name="CodigoAsignatura" />
+            </Principal>
+            <Dependent Role="Seccion">
+              <PropertyRef Name="CodigoAsignatura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Calificacion_IdSeccion">
+          <End Role="Seccion" Type="Self.Seccion" Multiplicity="0..1" />
+          <End Role="Calificacion" Type="Self.Calificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seccion">
+              <PropertyRef Name="IdSeccion" />
+            </Principal>
+            <Dependent Role="Calificacion">
+              <PropertyRef Name="IdSeccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Calificacion_Matricula">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Calificacion" Type="Self.Calificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Calificacion">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_Carrera">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="0..1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CodigoCarrera" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="Carrera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persona_IdRol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Persona">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seccion_Matricula">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="0..1" />
+          <End Role="Seccion" Type="Self.Seccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Matricula" />
+            </Principal>
+            <Dependent Role="Seccion">
+              <PropertyRef Name="Matricula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="IndiceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AreaAcademica" EntityType="Self.AreaAcademica" />
+          <EntitySet Name="Asignatura" EntityType="Self.Asignatura" />
+          <EntitySet Name="Calificacion" EntityType="Self.Calificacion" />
+          <EntitySet Name="Carrera" EntityType="Self.Carrera" />
+          <EntitySet Name="Literal" EntityType="Self.Literal" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Seccion" EntityType="Self.Seccion" />
+          <AssociationSet Name="FK_Asignatura_CodigoArea" Association="Self.FK_Asignatura_CodigoArea">
+            <End Role="AreaAcademica" EntitySet="AreaAcademica" />
+            <End Role="Asignatura" EntitySet="Asignatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_CodigoArea" Association="Self.FK_Persona_CodigoArea">
+            <End Role="AreaAcademica" EntitySet="AreaAcademica" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asignatura_CodigoCarrera" Association="Self.FK_Asignatura_CodigoCarrera">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="Asignatura" EntitySet="Asignatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seccion_CodigoAsignatura" Association="Self.FK_Seccion_CodigoAsignatura">
+            <End Role="Asignatura" EntitySet="Asignatura" />
+            <End Role="Seccion" EntitySet="Seccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Calificacion_IdSeccion" Association="Self.FK_Calificacion_IdSeccion">
+            <End Role="Seccion" EntitySet="Seccion" />
+            <End Role="Calificacion" EntitySet="Calificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Calificacion_Matricula" Association="Self.FK_Calificacion_Matricula">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Calificacion" EntitySet="Calificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_Carrera" Association="Self.FK_Persona_Carrera">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persona_IdRol" Association="Self.FK_Persona_IdRol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Persona" EntitySet="Persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seccion_Matricula" Association="Self.FK_Seccion_Matricula">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Seccion" EntitySet="Seccion" />
+          </AssociationSet>
+          <FunctionImport Name="sp_EditarPersona">
+            <Parameter Name="Matricula" Mode="In" Type="Int32" />
+            <Parameter Name="Carrera" Mode="In" Type="String" />
+            <Parameter Name="CodigoArea" Mode="In" Type="String" />
+            <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+            <Parameter Name="Contraseña" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EliminarPersona">
+          <Parameter Name="Matricula" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GuardarPersona">
+            <Parameter Name="IdRol" Mode="In" Type="Int32" />
+            <Parameter Name="Carrera" Mode="In" Type="String" />
+            <Parameter Name="CodigoArea" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+            <Parameter Name="Contraseña" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ListarAsignaturas" ReturnType="Collection(IndiceModel.sp_ListarAsignaturas_Result)" />
+          <FunctionImport Name="sp_ListarDocentes" ReturnType="Collection(IndiceModel.sp_ListarDocentes_Result)" />
+          <FunctionImport Name="sp_ListarEstudiantes" ReturnType="Collection(IndiceModel.sp_ListarEstudiantes_Result)" />
+          <FunctionImport Name="sp_ListarSeccion" ReturnType="Collection(IndiceModel.sp_ListarSeccion_Result)" />
+          <FunctionImport Name="sp_ObtenerDocentes" ReturnType="Collection(IndiceModel.sp_ObtenerDocentes_Result)">
+          <Parameter Name="Matricula" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ObtenerEstudiantes" ReturnType="Collection(IndiceModel.sp_ObtenerEstudiantes_Result)">
+          <Parameter Name="Matricula" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ValidarUsuario" ReturnType="Collection(IndiceModel.sp_ValidarUsuario_Result)">
+            <Parameter Name="Matricula" Mode="In" Type="Int32" />
+            <Parameter Name="Contraseña" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_ListarAsignaturas_Result">
+          <Property Type="String" Name="CodigoAsignatura" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="NombreAsignatura" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodigoCarrera" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="CodigoArea" Nullable="false" MaxLength="2" />
+          <Property Type="Int32" Name="Credito" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_ListarDocentes_Result">
+          <Property Type="Int32" Name="Matricula" Nullable="false" />
+          <Property Type="String" Name="Carrera" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="CodigoArea" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="320" />
+        </ComplexType>
+        <ComplexType Name="sp_ListarEstudiantes_Result">
+          <Property Type="Int32" Name="Matricula" Nullable="false" />
+          <Property Type="String" Name="Carrera" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="CodigoArea" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="320" />
+        </ComplexType>
+        <ComplexType Name="sp_ListarSeccion_Result">
+          <Property Type="Int32" Name="IdSeccion" Nullable="false" />
+          <Property Type="String" Name="CodigoAsignatura" Nullable="true" MaxLength="7" />
+          <Property Type="Int32" Name="Matricula" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_ObtenerDocentes_Result">
+          <Property Type="Int32" Name="Matricula" Nullable="false" />
+          <Property Type="String" Name="Carrera" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="CodigoArea" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="320" />
+        </ComplexType>
+        <ComplexType Name="sp_ObtenerEstudiantes_Result">
+          <Property Type="Int32" Name="Matricula" Nullable="false" />
+          <Property Type="String" Name="Carrera" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="CodigoArea" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="320" />
+        </ComplexType>
+        <ComplexType Name="sp_ValidarUsuario_Result">
+          <Property Type="Int32" Name="Matricula" Nullable="false" />
+          <Property Type="Int32" Name="IdRol" Nullable="false" />
+          <Property Type="String" Name="Carrera" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="CodigoArea" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="320" />
+          <Property Type="Decimal" Name="Indice" Nullable="true" Precision="3" Scale="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IndiceModelStoreContainer" CdmEntityContainer="IndiceEntities">
+          <EntitySetMapping Name="AreaAcademica">
+            <EntityTypeMapping TypeName="IndiceModel.AreaAcademica">
+              <MappingFragment StoreEntitySet="AreaAcademica">
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="NombreArea" ColumnName="NombreArea" />
+                <ScalarProperty Name="FechaIngresoArea" ColumnName="FechaIngresoArea" />
+                <ScalarProperty Name="VigenciaArea" ColumnName="VigenciaArea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asignatura">
+            <EntityTypeMapping TypeName="IndiceModel.Asignatura">
+              <MappingFragment StoreEntitySet="Asignatura">
+                <ScalarProperty Name="CodigoAsignatura" ColumnName="CodigoAsignatura" />
+                <ScalarProperty Name="CodigoCarrera" ColumnName="CodigoCarrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Credito" ColumnName="Credito" />
+                <ScalarProperty Name="NombreAsignatura" ColumnName="NombreAsignatura" />
+                <ScalarProperty Name="FechaIngresoAsignatura" ColumnName="FechaIngresoAsignatura" />
+                <ScalarProperty Name="VigenciaAsignatura" ColumnName="VigenciaAsignatura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Calificacion">
+            <EntityTypeMapping TypeName="IndiceModel.Calificacion">
+              <MappingFragment StoreEntitySet="Calificacion">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="CodigoAsignatura" ColumnName="CodigoAsignatura" />
+                <ScalarProperty Name="Trimestre" ColumnName="Trimestre" />
+                <ScalarProperty Name="Nota" ColumnName="Nota" />
+                <ScalarProperty Name="IdSeccion" ColumnName="IdSeccion" />
+                <ScalarProperty Name="FechaIngresoCalificacion" ColumnName="FechaIngresoCalificacion" />
+                <ScalarProperty Name="VigenciaCalificacion" ColumnName="VigenciaCalificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Carrera">
+            <EntityTypeMapping TypeName="IndiceModel.Carrera">
+              <MappingFragment StoreEntitySet="Carrera">
+                <ScalarProperty Name="CodigoCarrera" ColumnName="CodigoCarrera" />
+                <ScalarProperty Name="NombreCarrera" ColumnName="NombreCarrera" />
+                <ScalarProperty Name="FechaIngresoCarrera" ColumnName="FechaIngresoCarrera" />
+                <ScalarProperty Name="VigenciaCarrera" ColumnName="VigenciaCarrera" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Literal">
+            <EntityTypeMapping TypeName="IndiceModel.Literal">
+              <MappingFragment StoreEntitySet="Literal">
+                <ScalarProperty Name="Nota" ColumnName="Nota" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona">
+            <EntityTypeMapping TypeName="IndiceModel.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="FechaIngresoPersona" ColumnName="FechaIngresoPersona" />
+                <ScalarProperty Name="VigenciaPersona" ColumnName="VigenciaPersona" />
+                <ScalarProperty Name="Indice" ColumnName="Indice" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="IndiceModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="FechaIngresoRol" ColumnName="FechaIngresoRol" />
+                <ScalarProperty Name="VigenciaRol" ColumnName="VigenciaRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seccion">
+            <EntityTypeMapping TypeName="IndiceModel.Seccion">
+              <MappingFragment StoreEntitySet="Seccion">
+                <ScalarProperty Name="CodigoAsignatura" ColumnName="CodigoAsignatura" />
+                <ScalarProperty Name="IdSeccion" ColumnName="IdSeccion" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="FechaIngresoSeccion" ColumnName="FechaIngresoSeccion" />
+                <ScalarProperty Name="VigenciaSección" ColumnName="VigenciaSección" />
+                <ScalarProperty Name="NumeroSección" ColumnName="NumeroSección" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_EditarPersona" FunctionName="IndiceModel.Store.sp_EditarPersona" />
+          <FunctionImportMapping FunctionImportName="sp_EliminarPersona" FunctionName="IndiceModel.Store.sp_EliminarPersona" />
+          <FunctionImportMapping FunctionImportName="sp_GuardarPersona" FunctionName="IndiceModel.Store.sp_GuardarPersona" />
+          <FunctionImportMapping FunctionImportName="sp_ListarAsignaturas" FunctionName="IndiceModel.Store.sp_ListarAsignaturas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ListarAsignaturas_Result">
+                <ScalarProperty Name="CodigoAsignatura" ColumnName="CodigoAsignatura" />
+                <ScalarProperty Name="NombreAsignatura" ColumnName="NombreAsignatura" />
+                <ScalarProperty Name="CodigoCarrera" ColumnName="CodigoCarrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Credito" ColumnName="Credito" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ListarDocentes" FunctionName="IndiceModel.Store.sp_ListarDocentes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ListarDocentes_Result">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ListarEstudiantes" FunctionName="IndiceModel.Store.sp_ListarEstudiantes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ListarEstudiantes_Result">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ListarSeccion" FunctionName="IndiceModel.Store.sp_ListarSeccion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ListarSeccion_Result">
+                <ScalarProperty Name="IdSeccion" ColumnName="IdSeccion" />
+                <ScalarProperty Name="CodigoAsignatura" ColumnName="CodigoAsignatura" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ObtenerDocentes" FunctionName="IndiceModel.Store.sp_ObtenerDocentes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ObtenerDocentes_Result">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ObtenerEstudiantes" FunctionName="IndiceModel.Store.sp_ObtenerEstudiantes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ObtenerEstudiantes_Result">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ValidarUsuario" FunctionName="IndiceModel.Store.sp_ValidarUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IndiceModel.sp_ValidarUsuario_Result">
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Indice" ColumnName="Indice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

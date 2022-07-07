@@ -1,0 +1,59 @@
+﻿@model IDS325__Indice_Académico_Proyecto.Models.Seccion
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Seccion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaIngresoSeccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaIngresoSeccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VigenciaSección)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VigenciaSección)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroSección)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroSección)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Asignatura.CodigoCarrera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Asignatura.CodigoCarrera)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Carrera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Carrera)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdSeccion }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

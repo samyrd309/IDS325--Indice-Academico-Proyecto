@@ -1,0 +1,64 @@
+﻿@model IEnumerable<IDS325__Indice_Académico_Proyecto.Models.Calificacion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Trimestre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nota)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaIngresoCalificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VigenciaCalificacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seccion.CodigoAsignatura)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Persona.Carrera)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trimestre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nota)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaIngresoCalificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VigenciaCalificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Seccion.CodigoAsignatura)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Persona.Carrera)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
